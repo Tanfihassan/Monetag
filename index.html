@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Ad Load and Open</title>
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f9;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .task-message {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .ad-banner {
+            background-color: #f1f1f1;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            visibility: hidden; /* Hide the ad container initially */
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <!-- Monetag Ad Script (loaded asynchronously) -->
+    <script async src='//niphaumeenses.net/vignette.min.js' data-zone='8567715' data-sdk='show_8567715'></script>
+
+    <!-- Custom Script for Ad Display Logic -->
+    <script>
+        let adLoaded = false;
+
+        // Function to load and display the ad
+        function loadAd() {
+            // Only load and show the ad once
+            if (!adLoaded) {
+                show_8567715().then(() => {
+                    // Make the ad visible once it is loaded
+                    document.getElementById('monetag-zone').style.visibility = 'visible';
+                    console.log("Ad Loaded and Ready!");
+                }).catch((error) => {
+                    console.error("Error loading ad:", error);
+                });
+
+                adLoaded = true; // Ensure we only load the ad once
+            }
+        }
+
+        // Function to simulate watching the ad and rewarding the user
+        function watchAd() {
+            // Load the ad when the button is clicked
+            loadAd();
+
+            // Simulate ad watching completion and reward the user
+            show_8567715().then(() => {
+                alert('You have watched the ad and earned your reward!');
+                rewardUser();
+            }).catch((error) => {
+                alert('Error loading the ad: ' + error.message);
+            });
+        }
+
+        // Sample reward function (you can modify it based on your reward system)
+        function rewardUser() {
+            alert('Congratulations! You have earned 100 points!');
+            // You can send a request to your backend here to track rewards
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Watch Ads to Earn Rewards</h1>
+    <p class="task-message">Click the button below to watch an ad and earn rewards!</p>
+
+    <!-- Monetag Ad Zone: Initially hidden for fast load -->
+    <div class="ad-banner" id="monetag-zone"></div>
+
+    <!-- Button to Trigger Ad -->
+    <button class="btn" onclick="watchAd()">Watch Ad</button>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>Powered by <a href="https://www.monetag.io" target="_blank">Monetag</a></p>
+    </div>
+
+</body>
+</html>
